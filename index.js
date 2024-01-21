@@ -1,4 +1,3 @@
-
 // Import required modules
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -10,18 +9,45 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// Route to set a cookie
-app.get('/set-cookie', (req, res) => {
-  // Set a cookie named 'user_id' with a value of '123'
-  res.cookie('user_id', '123', { maxAge: 3600000, httpOnly: true });
-  res.send('Cookie set successfully!');
+// Dummy user data (for demonstration purposes)
+const users = [
+  { id: 1, username: 'user1', password: 'pass1' },
+  { id: 2, username: 'user2', password: 'pass2' },
+];
+
+// Route to handle user login
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  // Check credentials (dummy check, replace with actual authentication logic)
+  const user = users.find((u) => u.username === username && u.password === password);
+
+  if (user) {
+    // Set a cookie to indicate the user is authenticated
+    res.cookie('user_id', user.id, { httpOnly: true });
+    res.send(`Welcome, ${username}!`);
+  } else {
+    res.status(401).send('Invalid credentials');
+  }
 });
 
-// Route to retrieve the cookie
-app.get('/get-cookie', (req, res) => {
-  // Retrieve the 'user_id' cookie
+// Route to check if a user is authenticated
+app.get('/profile', (req, res) => {
+  // Retrieve the user ID from the cookie
   const userId = req.cookies.user_id;
-  res.send(`User ID from cookie: ${userId || 'Not set'}`);
+
+  if (userId) {
+    // Find the user based on the ID (dummy check)
+    const user = users.find((u) => u.id === parseInt(userId));
+
+    if (user) {
+      res.send(`Welcome back, ${user.username}!`);
+    } else {
+      res.status(401).send('User not found');
+    }
+  } else {
+    res.status(401).send('Not authenticated');
+  }
 });
 
 // Start the server
