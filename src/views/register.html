@@ -11,14 +11,16 @@
 <div class="container">
     <form action="/register" method="post">
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required>
+        <input type="email" id="email" name="email" required>
         
-        <br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        
+
         
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         
-        <br>
         
         <input type="submit" value="Register">
     </form>
@@ -26,7 +28,7 @@
 </body>
 <style>
 .container{
-  margin: 0 auto;
+  margin: 0 5rem;
 }
 </style>
 </html>
