@@ -1,54 +1,49 @@
 // Import required modules
-import express from 'express';
+import Koa from 'koa';
+import Router from 'koa-router'
+import { koaBody } from 'koa-body';
+import logger from 'koa-logger'
+import serve from 'koa-static'
+import path from "path";
+import fs from 'fs/promises'
 import cookieParser from 'cookie-parser'
-
+import { fileURLToPath } from 'url';
+//import morgan from 'morgan'
+// Get the directory name using import.meta.url
+debugger
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // Create an Express app
-const app = express();
+const app = new Koa();
+const router = new Router()
 
+// Serve static files from the 'public' directory
+app.use(serve(path.join(__dirname, 'public')))
 // Middleware to parse incoming JSON and cookies
-app.use(express.json());
-app.use(cookieParser());
+app.use(koaBody())
+   .use(logger())
+   .use(router.routes())
+   .use(router.allowedMethods())
+  .use(cookieParser());
+//app.use(morgan('dev'));
+const views = path.join(__dirname, 'views')
+// Serve the UI
+const indexPath = path.join(views, 'index.html')
 
-// Dummy user data (for demonstration purposes)
-const users = [
-  { id: 1, username: 'user1', password: 'pass1' },
-  { id: 2, username: 'user2', password: 'pass2' },
-];
+router.get('/', async (ctx) => {
+  const loginPage = await fs.readFile(indexPath)
+  ctx.type = 'html'
+  ctx.body = loginPage  
+})
 
 // Route to handle user login
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
+router.post('/login', (ctx) => {
 
-  // Check credentials (dummy check, replace with actual authentication logic)
-  const user = users.find((u) => u.username === username && u.password === password);
-
-  if (user) {
-    // Set a cookie to indicate the user is authenticated
-    res.cookie('user_id', user.id, { httpOnly: true });
-    res.send(`Welcome, ${username}!`);
-  } else {
-    res.status(401).send('Invalid credentials');
-  }
 });
 
 // Route to check if a user is authenticated
-app.get('/profile', (req, res) => {
-  // Retrieve the user ID from the cookie
-  const userId = req.cookies.user_id;
-
-  if (userId) {
-    // Find the user based on the ID (dummy check)
-    const user = users.find((u) => u.id === parseInt(userId));
-
-    if (user) {
-      res.send(`Welcome back, ${user.username}!`);
-    } else {
-      res.status(401).send('User not found');
-    }
-  } else {
-    res.status(401).send('Not authenticated');
-  }
-});
+router.get('/profile', (ctx) => {
+}) 
 
 // Start the server
 const PORT = 3000;
