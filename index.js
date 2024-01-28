@@ -26,7 +26,7 @@ app.use(koaBody())
    .use(router.allowedMethods())
   .use(cookieParser());
 //app.use(morgan('dev'));
-const views = path.join(__dirname, 'views')
+const views = path.join(__dirname, 'src/views')
 // Serve the UI
 const indexPath = path.join(views, 'index.html')
 
