@@ -18,6 +18,15 @@ export async function checkEmail(email: Email): Promise<boolean> {
   return !!result
 
 }
+export async function findUserByEmail(email: Email) {
+  const result = await db.query.users.findFirst({
+    where: eq(users.email, email)
+  })
+
+  return result
+
+}
+
 
 export function deleteAccount(email: Email) {
   
