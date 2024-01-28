@@ -1,19 +1,17 @@
 // Import required modules
 import Koa from 'koa';
 import Router from 'koa-router'
+import type { Context } from 'koa';
 import { koaBody } from 'koa-body';
 // import * as koaRespond from 'koa-respond';
 import logger from 'koa-logger'
 import serve from 'koa-static'
 import path from "path";
 import fs from 'fs/promises'
-import cookieParser from 'cookie-parser'
 import { fileURLToPath } from 'url';
 import { hashPassword } from './src/lib/password';
-import { isRegistered } from './src/lib/util';
-//import morgan from 'morgan'
+import loginRoute from './src/routes/login';
 // Get the directory name using import.meta.url
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // const { respond } = koaRespond
@@ -41,18 +39,12 @@ router.get('/', async (ctx) => {
   ctx.type = 'html'
   ctx.body = loginPage
   } else {
-    ctx.status(401)
+    
   }
 })
 
 // Route to handle user login
-router.post('/login', (ctx) => {
-  const {email, password } = ctx.request.body
-  const hashedPassword = hashPassword(password)
-  isRegistered()
-
-
-});
+router.post('/login',  (ctx: Context) => loginRoute(ctx))
 
 // Route to check if a user is authenticated
 router.get('/profile', (ctx) => {
