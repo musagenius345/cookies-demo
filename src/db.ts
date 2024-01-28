@@ -4,6 +4,7 @@ import { users } from '../db/schema';
 import * as schema from '../db/schema'
 import type { InsertUser, User } from '../db/schema';
 import Database from 'better-sqlite3';
+import { checkEmail } from '../db/handlers';
 
 export const userDB = new Database('./users.db');
 export const db = drizzle(userDB, {schema});
@@ -14,8 +15,5 @@ export const insertUser = (user: InsertUser) => {
   return db.insert(users).values(user).run()
 }
 
-export const emailExists = (email) => {
-  return db.query.users.findFirst({
-    where: eq(users.email, email)
-  })
-}
+const result = await checkEmail('yemen@wo4k.com')
+console.log(result)
