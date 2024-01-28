@@ -23,8 +23,8 @@ export function deleteAccount(email: Email) {
   
 }
 
-export function createAccount() {
-  
+export async  function createAccount( user ) {
+  return await db.insert(users).values(user)
 }
 
 export function changePassword(email: Email) {

@@ -11,6 +11,7 @@ import fs from 'fs/promises'
 import { fileURLToPath } from 'url';
 import { hashPassword } from './src/lib/password';
 import loginRoute from './src/routes/login';
+import { handleRegistration } from './src/routes/register';
 // Get the directory name using import.meta.url
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,8 +48,7 @@ router.get('/', async (ctx) => {
 router.post('/login',  (ctx: Context) => loginRoute(ctx))
 
 // Route to check if a user is authenticated
-router.get('/profile', (ctx) => {
-}) 
+router.get('/register', (ctx) => handleRegistration(ctx)) 
 
 // Start the server
 const PORT = 3000;
