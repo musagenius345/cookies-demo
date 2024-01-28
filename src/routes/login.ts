@@ -16,7 +16,7 @@ export default async function loginRoute(ctx: Context){
       const hashedPasswordAttempt = await bcrypt.hash(password, user.salt);
 
       // Compare hashed password attempt with the stored hashed password
-      if (hashedPasswordAttempt === user.passwordHash) {
+      if (hashedPasswordAttempt === user?.passwordHash) {
         ctx.body = 'Login successful';
       } else {
         ctx.status = 401; // Unauthorized
