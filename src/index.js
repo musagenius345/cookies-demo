@@ -1,6 +1,6 @@
 // Import required modules
-const express = require('express');
-const cookieParser = require('cookie-parser');
+import express from 'express';
+import cookieParser from 'cookie-parser'
 
 // Create an Express app
 const app = express();
