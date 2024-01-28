@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --watch src/index.js"
+    "start": "tsx --watch src/index.js",
+    "generate": "drizzle-kit generate:sqlite",
+    "migrate": "tsx src/migrate.ts"
   },
   "type": "module",
   "keywords": [],
@@ -25,7 +27,9 @@
     "koa-respond": "^2.1.0",
     "koa-router": "^12.0.1",
     "koa-static": "^5.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "~2.4.6",
