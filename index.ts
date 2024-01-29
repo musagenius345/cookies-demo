@@ -1,6 +1,7 @@
 // Import required modules
 import Koa from 'koa';
 import Router from 'koa-router'
+import render from "@koa/ejs"
 import type { Context } from 'koa';
 import { koaBody } from 'koa-body';
 // import * as koaRespond from 'koa-respond';
@@ -19,29 +20,37 @@ const __dirname = path.dirname(__filename);
 
 // Create an Express app
 const app = new Koa();
+
+
 const router = new Router()
 let validUser = true
+
+
+
 // Serve static files from the 'public' directory
 app.use(serve(path.join(__dirname, 'public')))
 // Middleware to parse incoming JSON and cookies
-app.use(koaBody())
-   .use(logger())
-   // .use(respond())
-   .use(router.routes())
-   .use(router.allowedMethods())
+  
+  .use(koaBody())
+
+  // .use(render())
+  
+  .use(logger())
+  
+  // .use(respond())
+  
+  
+  .use(router.routes())
+  
+  .use(router.allowedMethods())
 //app.use(morgan('dev'));
 const views = path.join(__dirname, 'src/views')
 // Serve the UI
 const indexPath = path.join(views, 'index.html')
 
 router.get('/', async (ctx) => {
-  if(validUser){
-  const loginPage = await fs.readFile(indexPath)
-  ctx.type = 'html'
-  ctx.body = loginPage
-  } else {
-    
-  }
+  // if(validUser){
+  ctx.render('index')
 })
 
 // Route to handle user login

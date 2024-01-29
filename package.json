@@ -2,17 +2,19 @@
   "name": "cookies-demo",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "tsx --watch src/index.js",
+    "start": "tsx --watch index.ts",
     "generate": "drizzle-kit generate:sqlite",
-    "migrate": "tsx src/migrate.ts"
+    "migrate": "tsx src/migrate.ts",
+    "studio": "drizzle-kit studio"
   },
   "type": "module",
   "keywords": [],
   "author": " <musabadru@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@koa/ejs": "^5.1.0",
     "@types/koa": "^2.14.0",
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^9.3.0",
@@ -20,6 +22,7 @@
     "dotenv": "^16.4.1",
     "drizzle-kit": "^0.20.13",
     "drizzle-orm": "^0.29.3",
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
     "koa": "^2.15.0",
     "koa-body": "^6.0.1",
@@ -36,6 +39,7 @@
     "@types/better-sqlite3": "~7.6.9",
     "@types/cookie-parser": "~1.4.6",
     "@types/express": "^4.17.21",
+    "@types/koa-ejs": "^4.3.3",
     "@types/koa-logger": "~3.1.5",
     "@types/koa-router": "~7.4.8",
     "@types/koa-static": "~4.0.4",

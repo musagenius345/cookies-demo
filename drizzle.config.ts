@@ -6,6 +6,6 @@ export default {
   out: './drizzle',
   driver: 'better-sqlite',
   dbCredentials: {
-    url: process.env.SQLITE_USER_DB ?? './src/users.db'
+    url: String(process.env.SQLITE_DATABASE) ?? './src/users.db'
     },
 } satisfies Config;

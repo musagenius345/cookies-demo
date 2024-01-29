@@ -1,5 +1,5 @@
 import { sqliteTable, AnySQLiteColumn, uniqueIndex, integer, text, numeric } from "drizzle-orm/sqlite-core"
-  import { sql } from "drizzle-orm"
+import { sql } from "drizzle-orm"
 
 export const users = sqliteTable("users", {
 	id: integer("id").primaryKey().notNull(),
@@ -17,3 +17,4 @@ export const drizzleMigrations = sqliteTable("__drizzle_migrations", {
 	hash: text("hash").notNull(),
 	createdAt: numeric("created_at"),
 });
+
