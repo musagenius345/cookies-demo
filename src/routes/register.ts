@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
 // import { router } from '../../index';
 import { createAccount } from '../../db/handlers';
-// ... (your imports)
 
 export const handleRegistration = async (ctx) => {
   const { email, username, password } = ctx.request.body;

@@ -20,10 +20,12 @@ const __dirname = path.dirname(__filename);
 
 // Create an Express app
 const app = new Koa();
-
+type AccountStatus = 'loggedIn' | 'loggedOut'
 
 const router = new Router()
 let validUser = true
+export let logInState: AccountStatus = 'loggedOut'
+
 
 
 
@@ -46,19 +48,30 @@ app.use(serve(path.join(__dirname, 'public')))
 //app.use(morgan('dev'));
 const views = path.join(__dirname, 'src/views')
 // Serve the UI
-const indexPath = path.join(views, 'index.html')
+const routifyPage = async (page: string) => await fs.readFile(path.join(views, page))
 
 router.get('/', async (ctx) => {
-  // if(validUser){
+  if(logInState == 'loggedOut'){
   ctx.type = 'html'
-  ctx.body = await fs.readFile(indexPath)
+  ctx.body = await routifyPage('login.html')
+  } else {
+    ctx.body = 'Already logged in'
+  }
 })
 
 // Route to handle user login
-router.post('/login',  (ctx: Context) => loginRoute(ctx))
+router.post('/login',  (ctx: Context) => 
+  loginRoute(ctx, () => logInState = 'loggedIn')
+)
+
+// Sign up page
+router.get('/register', async (ctx) => {
+  ctx.type = 'html'
+   ctx.body = await routifyPage('register.html')
+})
 
 // Route to check if a user is authenticated
-router.get('/register', (ctx) => handleRegistration(ctx)) 
+router.post('/register', (ctx) => handleRegistration(ctx)) 
 
 // Start the server
 const PORT = 3000;

@@ -2,8 +2,8 @@ import type { Context } from 'koa';
 import { checkEmail, findUserByEmail } from '../../db/handlers';
 import bcrypt from 'bcryptjs'
 
-
-export default async function loginRoute(ctx: Context){
+type LoginCallback = () =>void
+export default async function loginRoute(ctx: Context, loggedInCallback: LoginCallback){
   const { email, password } = ctx.request.body;
 
   try {
@@ -14,10 +14,10 @@ export default async function loginRoute(ctx: Context){
       const user = await findUserByEmail(email)
       // Hash the entered password with the stored salt
       const hashedPasswordAttempt = await bcrypt.hash(password, user.salt);
-
       // Compare hashed password attempt with the stored hashed password
       if (hashedPasswordAttempt === user?.passwordHash) {
         ctx.body = 'Login successful';
+        loggedInCallback()
       } else {
         ctx.status = 401; // Unauthorized
         ctx.body = 'Invalid credentials';
