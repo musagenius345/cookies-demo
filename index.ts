@@ -1,7 +1,7 @@
 // Import required modules
 import Koa from 'koa';
 import Router from 'koa-router'
-import render from "@koa/ejs"
+// import render from "@koa/ejs"
 import type { Context } from 'koa';
 import { koaBody } from 'koa-body';
 // import * as koaRespond from 'koa-respond';
@@ -50,7 +50,8 @@ const indexPath = path.join(views, 'index.html')
 
 router.get('/', async (ctx) => {
   // if(validUser){
-  ctx.render('index')
+  ctx.type = 'html'
+  ctx.body = await fs.readFile(indexPath)
 })
 
 // Route to handle user login
