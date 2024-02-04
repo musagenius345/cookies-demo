@@ -1,4 +1,4 @@
-import { db } from '../src/db'
+import { db, insertUser } from '../src/db'
 import { users } from './schema'
 import type { User } from './schema'
 import { eq } from 'drizzle-orm'
@@ -32,8 +32,8 @@ export function deleteAccount(email: Email) {
   
 }
 
-export async  function createAccount( user ) {
-  return await db.insert(users).values(user)
+export  function createAccount( user ) {
+  return insertUser(user)
 }
 
 export function changePassword(email: Email) {

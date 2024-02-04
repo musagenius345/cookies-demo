@@ -70,9 +70,21 @@ router.get('/register', async (ctx) => {
    ctx.body = await routifyPage('register.html')
 })
 
-// Route to check if a user is authenticated
-router.post('/register', (ctx) => handleRegistration(ctx)) 
-
+// Route to handle user registration
+router.post('/register', async (ctx) => {
+  try {
+    await handleRegistration(ctx);
+  } catch (error) {
+    if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      ctx.status = 400; // Bad Request
+      ctx.body = 'Error: Email address already registered.';
+    } else {
+      console.error('Error during registration:', error);
+      ctx.status = 500;
+      ctx.body = 'Internal Server Error';
+    }
+  }
+});
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
