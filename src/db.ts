@@ -5,9 +5,11 @@ import * as schema from '../db/schema'
 import type { InsertUser, User } from '../db/schema';
 import Database from 'better-sqlite3';
 import { checkEmail } from '../db/handlers';
+import { dbPath } from '../test';
 const databasePath = String(process.env.SQLITE_DATABASE)
+console.log(dbPath, 'in db.ts');
 
-export const userDB = new Database('../users.db', {fileMustExist: true});
+export const userDB = new Database(dbPath, {fileMustExist: true});
 export const db = drizzle(userDB, {schema});
 
 const allUsers: User[] = db.select().from(users).all();
